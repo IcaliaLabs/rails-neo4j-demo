@@ -1,0 +1,62 @@
+version: '3.1'
+
+volumes:
+  neo4j_data:
+
+networks:
+  backend:
+
+services:
+  neo4j:
+    image: neo4j:3.2
+    ports:
+      - ${DEMO_NEO4J_HTTP_PORT:-7474}:7474
+      - ${DEMO_NEO4J_BOLT_PORT:-7687}:7687
+    volumes:
+      - neo4j_data:/data # Mount the neo4j data volume
+    networks:
+      - backend
+
+  test: &app
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    image: icalialabs/rails-neo4j-demo:development
+    entrypoint: /usr/src/bin/entrypoint-dev
+    volumes:
+      # Mount the code directory into `/usr/src` inside our app containers:
+      - .:/usr/src
+    networks:
+      - backend
+
+    # Keep the stdin open, so we can attach to our app container's process
+    # and do things such as byebug, etc:
+    stdin_open: true
+
+    # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
+    tty: true
+
+    depends_on:
+      - neo4j
+
+    command: guard
+
+    environment: &app_env
+      # NEO4J_URL=http://user:pass@localhost:7474
+
+      NEO4J_TYPE: bolt
+      NEO4J_URL: bolt://neo4j:3x4mpl3@neo4j:7687
+
+      RAILS_ENV: test
+      RACK_ENV: test
+      RAILS_LOG_TO_STDOUT: "true"
+
+  web:
+    <<: *app
+    command: rails server -p 3000 -b 0.0.0.0
+    ports:
+      - ${DEMO_RAILS_WEB_PORT:-3000}:3000
+    environment:
+      <<: *app_env
+      RAILS_ENV: development
+      RACK_ENV: development
