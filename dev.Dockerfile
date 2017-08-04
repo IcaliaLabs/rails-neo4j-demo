@@ -20,7 +20,7 @@ RUN set -ex && apk add --no-cache \
   build-base \
   ca-certificates \
   less \
-  libpq \
+  libcurl \
   nodejs \
   openssl \
   tzdata

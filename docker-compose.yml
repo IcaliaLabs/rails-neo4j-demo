@@ -16,6 +16,8 @@ services:
       - neo4j_data:/data # Mount the neo4j data volume
     networks:
       - backend
+    environment:
+      NEO4J_AUTH: neo4j/3x4mpl3
 
   test: &app
     build:
@@ -42,10 +44,13 @@ services:
     command: guard
 
     environment: &app_env
-      # NEO4J_URL=http://user:pass@localhost:7474
+      # Connect using the HTTP interface:
+      NEO4J_URL: http://neo4j:3x4mpl3@neo4j:7474
 
-      NEO4J_TYPE: bolt
-      NEO4J_URL: bolt://neo4j:3x4mpl3@neo4j:7687
+      # Connect using the Bolt interface (Right now will crash when running migrations while
+      # obtaining the version, to generate the schema.yml...)
+      # NEO4J_TYPE: bolt
+      # NEO4J_URL: bolt://neo4j:3x4mpl3@neo4j:7687
 
       RAILS_ENV: test
       RACK_ENV: test
