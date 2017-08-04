@@ -19,6 +19,7 @@ CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 RUN set -ex && apk add --no-cache \
   build-base \
   ca-certificates \
+  cmake \
   less \
   libcurl \
   nodejs \

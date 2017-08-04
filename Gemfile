@@ -34,6 +34,10 @@ gem 'jbuilder', '~> 2.5'
 # A Neo4j OGM (Object-Graph-Mapper) for Ruby heavily inspired by ActiveRecord.
 gem 'neo4j', '~> 8.1', '>= 8.1.3'
 
+# Rugged is a Ruby bindings to the libgit2 linkable C Git library. This is for testing and using the
+# libgit2 library in a language that is awesome.
+gem 'rugged', '~> 0.26.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
