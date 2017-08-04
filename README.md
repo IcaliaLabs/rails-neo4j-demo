@@ -1,24 +1,11 @@
-# README
+# Rails + Neo4j Demo
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A demo using Neo4j to store & query a Git repo history...
 
-Things you may want to cover:
+```
+# Build & start the thing:
+plis build && plis start && plis logs -f
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Import the history data from a repo (will clone & pull inside tmp)
+plis run web rails demo:import[https://github.com/IcaliaLabs/alpha.git]
+```
